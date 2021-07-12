@@ -7,10 +7,14 @@ text_input = ["Madrid is the capital of Spain.",
               "I love to eat ice cream in Summer!!!",
               "What's your name?"]
 
+print(type(text_input))
+
 def basic_preprocess(text_input, labels):
   tokenizer = tf_text.WhitespaceTokenizer()
   tokenized  = tokenizer.tokenize(text_input)
   
   return tokenized
 
-basic_preprocess(text_input, 0)
+tokenized = basic_preprocess(text_input, 0)
+
+

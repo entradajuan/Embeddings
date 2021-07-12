@@ -111,3 +111,33 @@ test_dataset = test_dataset.batch(BATCH_SIZE, drop_remainder=True)
 val_dataset = val_dataset.batch(BATCH_SIZE, drop_remainder=True)
 train_dataset = train_dataset.batch(BATCH_SIZE, drop_remainder=True)
 
+text_input = ["Madrid is the capital of Spain.",
+              "I love to eat ice cream in Summer!!!",
+              "What's your name?"]
+
+# tokenize and pad text
+tokenizer2 = tf.keras.preprocessing.text.Tokenizer()
+tokenizer2.fit_on_texts(texts)
+text_sequences = tokenizer2.texts_to_sequences(text_input)
+
+print(text_sequences[0])
+
+text_sequences = tf.keras.preprocessing.sequence.pad_sequences(text_sequences)
+
+print(text_sequences[0])
+print(text_sequences[1])
+print(text_sequences[2])
+
+num_records = len(text_sequences)
+max_seqlen = len(text_sequences[0])
+print("{:d} sentences, max length: {:d}".format(num_records, max_seqlen))
+
+print(idx2word[9])
+print(idx2word[5])
+print(idx2word[4373])
+print(idx2word[15])
+print(idx2word[5832])
+
+print(idx2word[570])
+print(idx2word[13])
+
