@@ -17,4 +17,5 @@ def basic_preprocess(text_input, labels):
 
 tokenized = basic_preprocess(text_input, 0)
 
+print(tokenized)
 

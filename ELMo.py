@@ -1,6 +1,6 @@
-!pip install tensorflow==1.15
-!pip install "tensorflow_hub>=0.6.0"
-!pip3 install tensorflow_text==1.15
+#!pip install tensorflow==1.15
+#!pip install "tensorflow_hub>=0.6.0"
+#!pip3 install tensorflow_text==1.15
 
 import tensorflow as tf
 import tensorflow_hub as hub
@@ -17,6 +17,7 @@ embeddings = elmo([
     signature="default",
     as_dict=True)
 
+print(embeddings)
 print(type(embeddings))
 print(type(embeddings["elmo"]))
 print(embeddings["elmo"])
