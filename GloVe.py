@@ -43,6 +43,8 @@ import tensorflow_text as tf_text
 vocabulary_set = set()
 MAX_TOKENS = 0
 
+# TOKENIZER
+
 for example, label in imdb_train.take(100):
   tokenizer = tf_text.WhitespaceTokenizer()
   some_tokens  = tokenizer.tokenize(example.numpy())
@@ -55,6 +57,14 @@ for example, label in imdb_train.take(100):
 print(MAX_TOKENS)
 print(vocabulary_set)
 print(len(vocabulary_set))
+
+# ENCODER
+imdb_encoder = tfds.deprecated.text.TokenTextEncoder(vocabulary_set,
+                                                    lowercase=True,
+                                                    tokenizer=tokenizer)
+vocab_size = imdb_encoder.vocab_size
+
+print(vocab_size, MAX_TOKENS)
 
 
 
