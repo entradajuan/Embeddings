@@ -66,6 +66,38 @@ vocab_size = imdb_encoder.vocab_size
 
 print(vocab_size, MAX_TOKENS)
 
+from tensorflow.keras.preprocessing import sequence
+
+def encode_pad_transform(sample):
+    encoded = imdb_encoder.encode(sample.numpy())
+    pad = sequence.pad_sequences([encoded], padding='post', 
+                                 maxlen=150)
+    return np.array(pad[0], dtype=np.int64)  
 
 
+def encode_tf_fn(sample, label):
+    encoded = tf.py_function(encode_pad_transform, 
+                                       inp=[sample], 
+                                       Tout=(tf.int64))
+    encoded.set_shape([None])
+    label.set_shape([])
+    return encoded, label
 
+
+subset = imdb_train.take(10)
+print(type(subset))
+tst = subset.map(encode_tf_fn)
+print(tst)
+
+subset = imdb_train.take(10)
+print(type(subset))
+tst = subset.map(encode_tf_fn)
+print(type(tst.take(10)))
+
+
+for sent, lab in subset:
+  print(sent)
+
+
+for sent, lab in tst:
+  print(sent)
