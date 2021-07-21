@@ -36,6 +36,38 @@ imdb_train, ds_info = tfds.load(name="imdb_reviews", split="train",
 imdb_test = tfds.load(name="imdb_reviews", split="test", 
                       as_supervised=True)
 
+print(type(imdb_train))
+for example, label in imdb_train.take(1):
+    print(example, '\n', label)
+
+#!pip install tensorflow_text 
+import tensorflow_text as tf_text
+
+#def basic_preprocess(text_input, labels):
+#  tokenizer = tf_text.WhitespaceTokenizer()
+#  tokenized  = tokenizer.tokenize(text_input)
+#  
+#  return tokenized
+#
+#tokenized = basic_preprocess(text_input, 0)
+#
+#print(tokenized)
+
+
+vocabulary_set = set()
+MAX_TOKENS = 0
+
+for example, label in imdb_train.take(1000):
+  tokenizer = tf_text.WhitespaceTokenizer()
+  some_tokens  = tokenizer.tokenize(example.numpy())
+
+  if MAX_TOKENS < len(some_tokens):
+        MAX_TOKENS = len(some_tokens)
+  #vocabulary_set.update(some_tokens)
+
+print(MAX_TOKENS)
+
+print(some_tokens)
 
 
 
