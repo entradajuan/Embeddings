@@ -7,8 +7,6 @@ import tensorflow as tf
 
 from sklearn.metrics import accuracy_score, confusion_matrix
 
-
-
 def download_and_read(url):
     local_file = url.split('/')[-1]
     p = tf.keras.utils.get_file(local_file, url, 
@@ -22,4 +20,7 @@ def download_and_read(url):
             texts.append(text)
     return texts, labels
 
+
+DATASET_URL = "https://archive.ics.uci.edu/ml/machine-learning-databases/00228/smsspamcollection.zip"
+texts, labels = download_and_read(DATASET_URL)
 
