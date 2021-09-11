@@ -89,7 +89,6 @@ def encode_pad_transform(sample):
     return np.array(pad[0], dtype=np.int64)  
 
 
-
 def encode_tf_fn(sentence, label):
     encoded = tf.py_function(encode_pad_transform, 
                                        inp=[sentence], 
@@ -105,7 +104,6 @@ encoded_test = imdb_test.map(encode_tf_fn,
                              num_parallel_calls=tf.data.experimental.AUTOTUNE)
 
 
-
 for e in imdb_train.take(1):
   print(e)
 
@@ -115,4 +113,6 @@ for e in encoded_train.take(1):
 print([e for e in imdb_train.take(1)][0][0].numpy().decode(encoding = 'utf-8').split()[0])
 print([e for e in encoded_train.take(1)][0][0].numpy()[0])
 print(embedding_matrix[[e for e in encoded_train.take(1)][0][0].numpy()[0]])
+
+# Ahora hay que convertir las frases de identificaoder en vectores de tamaño len(dict_w2v['house'])
 
