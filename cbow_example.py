@@ -18,11 +18,15 @@ for sentence, label in imdb_train:
         MAX_TOKENS = len(some_tokens)
   vocabulary_set.update(some_tokens)
 
+print('VOCAB SIZE = ', len(vocabulary_set))
+
 df = tfds.as_dataframe(imdb_train, ds_info)
 print(df.head())
 print(df.describe())
 print(df.shape)
 
+label_train = df.iloc[:, :1]
+features_train = df.iloc[:, 1:]
 
 class CBOWModel(tf.keras.Model):
     def __init__(self, vocab_sz, emb_sz, window_sz, **kwargs):
@@ -56,11 +60,13 @@ model.compile(optimizer=tf.optimizers.Adam(),
     loss="categorical_crossentropy",
     metrics=["accuracy"])
 
-
 model.summary()
 
 # train the model here
 
+##   OJITO!!!!!   ENTENDER LO QUE SE QUIERE HACER AQUI!!!
+features_train = [w for w in vocabulary_set]
+model.fit(features_train, batch_size=BATCH_SIZE, epochs=EPOCHS, verbose=True)
 
 
 
