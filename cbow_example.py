@@ -18,6 +18,10 @@ for sentence, label in imdb_train:
         MAX_TOKENS = len(some_tokens)
   vocabulary_set.update(some_tokens)
 
+df = tfds.as_dataframe(imdb_train, ds_info)
+print(df.head())
+print(df.describe())
+print(df.shape)
 
 
 class CBOWModel(tf.keras.Model):
