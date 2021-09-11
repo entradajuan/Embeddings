@@ -24,3 +24,16 @@ def download_and_read(url):
 DATASET_URL = "https://archive.ics.uci.edu/ml/machine-learning-databases/00228/smsspamcollection.zip"
 texts, labels = download_and_read(DATASET_URL)
 
+#TOKENIZE
+tokenizer = tf.keras.preprocessing.text.Tokenizer()
+tokenizer.fit_on_texts(texts)
+tokenized_texts = tokenizer.texts_to_sequences(texts)
+print(texts[0])
+print(tokenized_texts[0])
+print(tokenizer.sequences_to_texts([tokenized_texts[0]]))
+text_sequences = tf.keras.preprocessing.sequence.pad_sequences(tokenized_texts)
+num_records = len(texts)
+max_seqlen = len(tokenized_texts[0])
+
+
+
