@@ -143,10 +143,30 @@ model.summary()
 # compile and train
 model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
+# train model
+# data distribution is 4827 ham and 747 spam (total 5574), which 
+# works out to approx 87% ham and 13% spam, so we take reciprocals
+# and this works out to being each spam (1) item as being approximately
+# 8 times as important as each ham (0) message.
+CLASS_WEIGHTS = { 0: 1, 1: 8 }
 
+NUM_EPOCHS = 25
+model.fit(train_dataset, epochs=NUM_EPOCHS, 
+    validation_data=val_dataset,
+    class_weight=CLASS_WEIGHTS)
 
+# evaluate against test set
+labels, predictions = [], []
+for Xtest, Ytest in test_dataset:
+    Ytest_ = model.predict_on_batch(Xtest)
+    ytest = np.argmax(Ytest, axis=1)
+    ytest_ = np.argmax(Ytest_, axis=1)
+    labels.extend(ytest.tolist())
+    predictions.extend(ytest.tolist())
 
-
+print("test accuracy: {:.3f}".format(accuracy_score(labels, predictions)))
+print("confusion matrix")
+print(confusion_matrix(labels, predictions))
 
 
 
