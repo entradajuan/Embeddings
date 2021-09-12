@@ -20,7 +20,6 @@ def download_and_read(url):
             texts.append(text)
     return texts, labels
 
-
 DATASET_URL = "https://archive.ics.uci.edu/ml/machine-learning-databases/00228/smsspamcollection.zip"
 texts, labels = download_and_read(DATASET_URL)
 
@@ -44,14 +43,16 @@ print(words_2_idx['house'])
 print(ids_2_words[words_2_idx['house']])
 
 # preparar dataset
-dataset = tf.data.Dataset.from_tensor_slices((texts, labels))
+dataset = tf.data.Dataset.from_tensor_slices((text_sequences, labels))
 dataset = dataset.shuffle(10000)
 test_size = num_records // 4
 val_size = (num_records - test_size) // 10
 test_dataset = dataset.take(test_size)
 val_dataset = dataset.skip(test_size).take(val_size)
 train_dataset = dataset.skip(test_size + val_size)
-
+print(test_dataset)
+print(val_dataset)
+print(train_dataset)
 BATCH_SIZE = 168
 test_dataset = test_dataset.batch(BATCH_SIZE, drop_remainder=True)
 val_dataset = val_dataset.batch(BATCH_SIZE, drop_remainder=True)
@@ -64,7 +65,7 @@ def build_embedding_matrix(sequences, word2idx, embedding_dim, embedding_file):
     if os.path.exists(embedding_file):
         E = np.load(embedding_file)
     else:
-        vocab_size = len(word2idx)
+        vocab_size = len(word2idx) + 1
         E = np.zeros((vocab_size, embedding_dim))
         word_vectors = api.load(EMBEDDING_MODEL)
         for word, idx in word2idx.items():
@@ -81,11 +82,8 @@ def build_embedding_matrix(sequences, word2idx, embedding_dim, embedding_file):
 EMBEDDING_DIM = 300
 DATA_DIR = "data"
 EMBEDDING_NUMPY_FILE = os.path.join(DATA_DIR, "E.npy")
-E = build_embedding_matrix(texts, words_2_idx, EMBEDDING_DIM,
-    EMBEDDING_NUMPY_FILE)
+E = build_embedding_matrix(text_sequences, words_2_idx, EMBEDDING_DIM, EMBEDDING_NUMPY_FILE)
 print("Embedding matrix:", E.shape)
-
-
 
 
 
